@@ -10,6 +10,7 @@ from .database import user_collection
 from server.routes.product import router as ProductRouter
 from server.routes.user import router as UserRouter
 from server.routes.cart import router as CartRouter
+from server.routes.order_history import router as OrderHistoryRouter
 
 from server.routes.user import get_current_user
 
@@ -18,6 +19,7 @@ app = FastAPI()
 app.include_router(ProductRouter, tags=["Product"], prefix="/product")
 app.include_router(UserRouter, tags=["Auth"], prefix="/auth")
 app.include_router(CartRouter, tags=["Cart"], prefix="/cart")
+app.include_router(OrderHistoryRouter, tags=["Order History"], prefix="/order")
 
 origins = ["*"]
 

@@ -53,8 +53,6 @@ const AuthProvider = ({ children }) => {
 
     if (response.ok) {
       const user = await response.json();
-      // setIsAuthenticated(true);
-      // setUser({ email });
       return true;
     } else {
       return false;
@@ -68,13 +66,59 @@ const AuthProvider = ({ children }) => {
     setOrders([]);
   };
 
-  const placeOrder = (order) => {
-    setOrders([...orders, order]);
+  const getOrderHistory = async () => {
+    if (!token) {
+      return "Not logged in";
+    }
+
+    const response = await fetch("http://localhost:8000/order/get_order_history", {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer "+token,
+      },
+    });
+
+    if (response.ok) {
+      const orderHistory = await response.json();
+      console.log(orderHistory);
+      setOrders(orderHistory.orders);
+      return null;
+    } else {
+      return "Error in connection";
+    }
+  } 
+
+  const placeOrder = async (order) => {
+    if (!token) {
+      return "Not logged in";
+    }
+    console.log(order);
+    // setOrders([...orders, order]);
+
+    const response = await fetch("http://localhost:8000/order/add_order", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer "+token,
+      },
+      body: JSON.stringify({cart_items: order})
+    })
+
+    if (response.ok) {
+      console.log("Orders set!");
+      // setOrders([...orders, order]);
+      return null;
+    } else {
+      return "Error in connection";
+    }
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, orders, login, signup, logout, placeOrder, token }}
+      value={{ isAuthenticated, user, orders, login, signup, logout, getOrderHistory , placeOrder, token }}
     >
       {children}
     </AuthContext.Provider>

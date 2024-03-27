@@ -43,24 +43,14 @@ const CartProvider = ({ children }) => {
 
     const existingItem = cartItems.find((item) => item.name === product.name);
     if (existingItem) {
-      // setCartItems(
-      //   cartItems.map((item) =>
-      //     item.name === product.name
-      //       ? { ...item, quantity: item.quantity + 1 }
-      //       : item
-      //   )
-      // );
       cartCopy = cartCopy.map((item) => 
         item.name === product.name
         ? { ...item, quantity: item.quantity + 1 }
         : item
       );
     } else {
-      // setCartItems([...cartItems, { ...product, quantity: 1 }]);
       cartCopy = [...cartCopy, {...product, quantity: 1}]
     }
-
-    // console.log(JSON.stringify({cart_items: cartCopy}))
 
     const response = await fetch("http://localhost:8000/cart/set_cart", {
       method: "POST",
@@ -144,6 +134,8 @@ const CartProvider = ({ children }) => {
       return "Not logged in";
     }
 
+    console.log("Clearing the cart!");
+
     const response = await fetch("http://localhost:8000/cart/set_cart", {
       method: "POST",
       headers: {
@@ -151,7 +143,7 @@ const CartProvider = ({ children }) => {
         'Content-Type': 'application/json',
         "Authorization": "Bearer "+token,
       },
-      body: JSON.stringify([])
+      body: JSON.stringify({cart_items: []})
     });
 
     if (response.ok) {

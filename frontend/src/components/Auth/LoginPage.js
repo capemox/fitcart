@@ -54,9 +54,9 @@ const LoginPage = () => {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Login
+          Login 
         </button>
-        <h6 class="error-message">{errorMessage}</h6>
+        <h6 className="error-message">{errorMessage}</h6>
       </form>
     </div>
   );

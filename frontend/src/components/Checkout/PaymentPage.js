@@ -1,15 +1,21 @@
 import React, { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { CartContext } from '../../contexts/CartContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import '../../styles/styles.css';
 
 const PaymentPage = () => {
   const { cartItems, clearCart } = useContext(CartContext);
+  const { placeOrder } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handlePayment = () => {
     // Simulating a payment process
-    setTimeout(() => {
+    setTimeout( async () => {
       alert('Payment successful!');
-      clearCart();
+      await placeOrder(cartItems);
+      await clearCart();
+      navigate("/");
     }, 2000);
   };
 
@@ -20,7 +26,7 @@ const PaymentPage = () => {
         <h3>Order Summary</h3>
         <ul>
           {cartItems.map((item) => (
-            <li key={item.id}>
+            <li key={item.name}>
               {item.name} x {item.quantity} - ${item.price * item.quantity}
             </li>
           ))}
