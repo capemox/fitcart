@@ -1,11 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProductsContext } from '../../contexts/ProductsContext';
+import { CartContext } from '../../contexts/CartContext';
 import ProductCard from './ProductCard';
 import '../../styles/styles.css';
 
 const ProductListPage = () => {
-  const { products } = useContext(ProductsContext);
+  const { products, isLoading, error } = useContext(ProductsContext);
+  const { getCart } = useContext(CartContext);
+  console.log(products)
+
+  useEffect(() => {
+    getCart();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="product-list">
@@ -13,8 +28,8 @@ const ProductListPage = () => {
       <div className="grid">
         {products.map((product) => (
           <Link
-            key={product.id}
-            to={`/product/${product.id}`}
+            key={product.name}
+            to={`/product/${product.name}`}
             className="product-card-link"
           >
             <ProductCard product={product} />

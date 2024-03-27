@@ -1,19 +1,32 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import '../../styles/styles.css';
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
   const { signup } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    setErrorMessage(null);
+  }, [email, password, confirmPassword]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      signup(email, password);
+      const signedUp = await signup(email, password);
+      if (signedUp === true) {
+        navigate("/login");
+      }
+      else {
+        setErrorMessage("Account already exists");
+      }
     } else {
-      alert('Passwords do not match');
+      setErrorMessage("Passwords do not match");
     }
   };
 
@@ -54,6 +67,7 @@ const SignupPage = () => {
         <button type="submit" className="btn btn-primary">
           Sign Up
         </button>
+        <h6 class="error-message">{errorMessage}</h6>
       </form>
     </div>
   );

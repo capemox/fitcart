@@ -30,8 +30,9 @@ body {
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 25%));
     grid-gap: 1rem;
+    /* max-width: 25%; */
   }
   
   /* Components */
@@ -196,7 +197,7 @@ body {
   
   .cart-items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 100%));
     grid-gap: 1rem;
     margin-bottom: 2rem;
   }
@@ -343,4 +344,13 @@ body {
   
   .order-history li h3 {
     margin-top: 0;
+  }
+
+  .error-message { 
+    font-size: 1rem; 
+    font-weight: 700;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    color: #fc4141;
   }

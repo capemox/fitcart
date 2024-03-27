@@ -6,7 +6,12 @@ import '../../styles/styles.css';
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, deleteLocalCart } = useContext(CartContext);
+
+  const onLogout = async () => {
+    logout();
+    deleteLocalCart();
+  } 
 
   return (
     <nav className="navbar">
@@ -25,7 +30,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <Link to="/order-history">Order History</Link>
-              <button className="btn btn-logout" onClick={logout}>
+              <button className="btn btn-logout" onClick={onLogout}>
                 Logout
               </button>
             </>
