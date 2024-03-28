@@ -17,7 +17,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="brand">
-          E-Commerce
+          PetShop
         </Link>
         <div className="nav-links">
           <Link to="/">Products</Link>

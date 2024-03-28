@@ -5,11 +5,7 @@ from PIL import Image
 from io import BytesIO
 import base64
 
-from ..database import (
-    add_product,
-    retrieve_product,
-    retrieve_products
-)
+from ..database import test_collection
 
 from ..models.product import (
     ProductSchema,
@@ -17,6 +13,33 @@ from ..models.product import (
 )
 
 router = APIRouter()
+
+def product_helper(product) -> dict:
+    return {
+        "name": str(product["name"]),
+        "price": int(product["price"]),
+        "description": str(product["description"]),
+        "image": "data:image/png;base64,"+product["image"].decode(),
+    }
+
+async def retrieve_products():
+    products = []
+    async for product in test_collection.find():
+        products.append(product_helper(product))
+
+    return products
+
+async def add_product(product: ProductSchema):
+    product = await test_collection.insert_one(product.model_dump(by_alias=True, exclude=["id"]))
+    return product
+
+async def retrieve_product(name: str):
+    product = await test_collection.find_one({"name": name})
+    if product:
+        return product_helper(product)
+    else:
+        return None
+
 
 @router.post("/add_product")
 async def add_product_data(image: UploadFile = File(...), product: ProductUpload = Depends()):
