@@ -31,8 +31,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
-
 @app.get("/")
 async def read_root(user = Depends(get_current_user)):
     return user
