@@ -4,7 +4,7 @@ services:
   mongo:
       image: mongo
       restart: always
-      volumes: 
+      volumes:  
         - /docker-volumes/mongo
       environment:
         - MONGO_INITDB_ROOT_USERNAME=root
