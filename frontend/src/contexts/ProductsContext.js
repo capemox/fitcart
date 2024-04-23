@@ -14,7 +14,7 @@ const ProductsProvider = ({ children }) => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch("http://localhost:8000/product/get_products", {
+        const response = await fetch("http://192.168.49.2:32323/api/product/get_products", {
           method: "GET",
           headers: {
             'Accept': 'application/json',

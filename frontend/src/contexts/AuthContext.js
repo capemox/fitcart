@@ -16,11 +16,11 @@ const AuthProvider = ({ children }) => {
     var encodedPasswordKey = encodeURIComponent("password")
     var encodedPasswordValue = encodeURIComponent(password);
 
-    formBody.push(encodedEmailKey+"="+encodedEmailValue);
-    formBody.push(encodedPasswordKey+"="+encodedPasswordValue);
+    formBody.push(encodedEmailKey + "=" + encodedEmailValue);
+    formBody.push(encodedPasswordKey + "=" + encodedPasswordValue);
     formBody = formBody.join("&");
 
-    const response = await fetch("http://localhost:8000/auth/login", {
+    const response = await fetch("http://192.168.49.2:32323/login", {
       method: "POST",
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -42,17 +42,17 @@ const AuthProvider = ({ children }) => {
   };
 
   const signup = async (email, password) => {
-    const response = await fetch("http://localhost:8000/auth/signup", {
+    const response = await fetch("http://192.168.49.2:32323/signup", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({"email": email, "password": password, "confirm_password": password})
+      body: JSON.stringify({ "email": email, "password": password, "confirm_password": password })
     });
 
     if (response.ok) {
-      const user = await response.json();
+      // const user = await response.json();
       return true;
     } else {
       return false;
@@ -71,24 +71,26 @@ const AuthProvider = ({ children }) => {
       return "Not logged in";
     }
 
-    const response = await fetch("http://localhost:8000/order/get_order_history", {
+    const response = await fetch("http://192.168.49.2:32323/api/order-history/get_order_history", {
       method: "GET",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        "Authorization": "Bearer "+token,
+        "Authorization": "Bearer " + token,
       },
     });
 
     if (response.ok) {
+      console.log("ok")
       const orderHistory = await response.json();
       console.log(orderHistory);
       setOrders(orderHistory.orders);
       return null;
     } else {
+      console.log("not ok")
       return "Error in connection";
     }
-  } 
+  }
 
   const placeOrder = async (order) => {
     if (!token) {
@@ -97,14 +99,14 @@ const AuthProvider = ({ children }) => {
     console.log(order);
     // setOrders([...orders, order]);
 
-    const response = await fetch("http://localhost:8000/order/add_order", {
+    const response = await fetch("http://192.168.49.2:32323/api/order-history/add_order", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        "Authorization": "Bearer "+token,
+        "Authorization": "Bearer " + token,
       },
-      body: JSON.stringify({cart_items: order})
+      body: JSON.stringify({ cart_items: order })
     })
 
     if (response.ok) {
@@ -118,7 +120,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, orders, login, signup, logout, getOrderHistory , placeOrder, token }}
+      value={{ isAuthenticated, user, orders, login, signup, logout, getOrderHistory, placeOrder, token }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+        - "cart"
+      containers:
+      - name: cart-microservice
+        image: cart-microservice:v1
+        env:
+        - name: MONGODB_URL
+          value: mongodb://localhost/cart_collection?authSource=admin&retryWrites=true&w=majority
+        - name: JWT_SECRET_KEY
+          value: c91ea84ece6952df6f0819747ac07d79a9845cff4a8f745c6f23cb0351af6e1b
+        - name: JWT_REFRESH_SECRET_KEY
+          value: 992ac25d558881bae6eeb90518886eebab61e7f36354543901fa11c9b57da44e
+      - name: cart-mongodb
+        image: mongo:4.4
+        ports:
+        - containerPort: 27017
+

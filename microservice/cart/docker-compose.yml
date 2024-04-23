@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  mongo_cart:
+      image: mongo
+      restart: always
+      volumes:  
+        - /docker-volumes/mongo
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=example
+
+  server:
+    build: .  
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://root:example@mongo_cart/test_fitcart?authSource=admin&retryWrites=true&w=majority
+      - JWT_SECRET_KEY=c91ea84ece6952df6f0819747ac07d79a9845cff4a8f745c6f23cb0351af6e1b
+      - JWT_REFRESH_SECRET_KEY=992ac25d558881bae6eeb90518886eebab61e7f36354543901fa11c9b57da44e

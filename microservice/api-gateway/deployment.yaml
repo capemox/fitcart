@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: api-gateway-microservice:v1
+        env:
+        - name: JWT_SECRET_KEY
+          value: c91ea84ece6952df6f0819747ac07d79a9845cff4a8f745c6f23cb0351af6e1b
+        - name: JWT_REFRESH_SECRET_KEY
+          value: 992ac25d558881bae6eeb90518886eebab61e7f36354543901fa11c9b57da44e

@@ -14,9 +14,10 @@ from ..password_utils import JWT_SECRET_KEY, ALGORITHM
 
 router = APIRouter()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+@router.get("/login")
+async def get_current_user(token: str):
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
     except:
@@ -43,7 +44,7 @@ async def create_user(user: UserSignUp):
     new_user = await user_collection.insert_one(new_user.model_dump(by_alias=True, exclude="id"))
     return JSONResponse(content={"email": user.email})
 
-@router.post("/login")
+@router.post("/token")
 async def login_user(user: OAuth2PasswordRequestForm = Depends()):
     login_user = await user_collection.find_one({"email": user.username})
     if not login_user:

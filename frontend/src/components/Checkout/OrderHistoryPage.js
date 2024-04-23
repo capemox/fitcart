@@ -31,7 +31,6 @@ const OrderHistoryPage = () => {
             <li key={order.id}>
               <h3>Order #{order.id}</h3>
               <p>Date: {order.order_date}</p>
-              <p>Total: ${order.total}</p>
               <ul>
                 {order.cart_items.map((item) => (
                   <li key={item.name}>

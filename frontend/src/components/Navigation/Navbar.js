@@ -11,13 +11,13 @@ const Navbar = () => {
   const onLogout = async () => {
     logout();
     deleteLocalCart();
-  } 
+  }
 
   return (
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="brand">
-          PetShop
+          FitCart
         </Link>
         <div className="nav-links">
           <Link to="/">Products</Link>

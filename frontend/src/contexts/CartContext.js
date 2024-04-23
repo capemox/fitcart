@@ -14,7 +14,7 @@ const CartProvider = ({ children }) => {
       return "Not logged in";
     }
     
-    const response = await fetch("http://localhost:8000/cart/get_cart", {
+    const response = await fetch("http://192.168.49.2:32323/api/cart/get_cart", {
       method: "GET",
       headers: {
         'Accept': 'application/json',
@@ -52,7 +52,7 @@ const CartProvider = ({ children }) => {
       cartCopy = [...cartCopy, {...product, quantity: 1}]
     }
 
-    const response = await fetch("http://localhost:8000/cart/set_cart", {
+    const response = await fetch("http://192.168.49.2:32323/api/cart/set_cart", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -81,7 +81,7 @@ const CartProvider = ({ children }) => {
       item.name === name ? { ...item, quantity } : item
     );
 
-    const response = await fetch("http://localhost:8000/cart/set_cart", {
+    const response = await fetch("http://192.168.49.2:32323/api/cart/set_cart", {
       method: "POST",
       headers: {  
         'Accept': 'application/json',
@@ -110,7 +110,7 @@ const CartProvider = ({ children }) => {
       item.name !== name
     );
 
-    const response = await fetch("http://localhost:8000/cart/set_cart", {
+    const response = await fetch("http://192.168.49.2:32323/api/cart/set_cart", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -136,7 +136,7 @@ const CartProvider = ({ children }) => {
 
     console.log("Clearing the cart!");
 
-    const response = await fetch("http://localhost:8000/cart/set_cart", {
+    const response = await fetch("http://192.168.49.2:32323/api/cart/set_cart", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
